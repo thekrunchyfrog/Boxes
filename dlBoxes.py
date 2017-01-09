@@ -12,8 +12,29 @@ driver.find_element_by_name('btnSubmit').click()
 
 games = driver.find_elements_by_css_selector('table.standard tr td:first-of-type a')
 
-for game in games:
-    print(game.text)
-    #driver.find_element_by_link_text(game.text).click()
+try:
 
-driver.close()
+    gamePages = []
+
+    for game in games:
+
+        if game.text != "Title" and game.text != " " and game.text != "":
+
+            gamePages.append(game.text)
+
+    for gamePage in gamePages:
+
+        driver.find_element_by_link_text(gamePage).click()
+
+        images = driver.find_elements_by_tag_name('img')
+
+        front = images[21].get_attribute("src")
+        back = images[22].get_attribute("src")
+
+        print front
+        print back
+
+        driver.back()
+
+finally:
+    driver.quit()
